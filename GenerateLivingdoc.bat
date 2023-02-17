@@ -1,0 +1,1 @@
+livingdoc test-assembly "E:\repos\PlaywrightWithSpecflowIntegration\bin\Debug\net6.0\PlaywrightWithSpecflowIntegration.dll" -t "E:\repos\PlaywrightWithSpecflowIntegration\bin\Debug\net6.0\TestExecution.json"
