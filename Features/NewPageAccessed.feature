@@ -1,8 +1,8 @@
-﻿Feature: Feature1
+﻿Feature: NewPageAccessed
 
 A short summary of the feature
 
-@tag1
+@regression
 Scenario: I access a different page
 	Given I access the main Wikipedia page
 	When I tap on the first article

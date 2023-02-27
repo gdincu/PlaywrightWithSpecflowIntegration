@@ -6,12 +6,12 @@ using TechTalk.SpecFlow.Assist;
 namespace PlaywrightWithSpecflowIntegration.StepDefinitions
 {
     [Binding]
-    public class EAAppTestStepDefinitions
+    public class LoginStepDefinitions
     {
         private readonly Driver _driver;
         private readonly LoginPage _loginPage;
 
-        public EAAppTestStepDefinitions(Drivers.Driver driver)
+        public LoginStepDefinitions(Drivers.Driver driver)
         {
             _driver = driver;
             _loginPage = new LoginPage(_driver.Page);
@@ -23,12 +23,10 @@ namespace PlaywrightWithSpecflowIntegration.StepDefinitions
             _driver.Page.GotoAsync("https://www.stealmylogin.com/demo.html");
         }
 
-        [When(@"I enter the following login details")]
-        public async Task WhenIEnterTheFollowingLoginDetails(Table table)
+        [When(@"I enter the following username: (.*) and password: (.*)")]
+        public async Task WhenIEnterTheFollowingLoginDetails(string Username,string Password)
         {
-            //Read the table dynamically
-            dynamic data = table.CreateDynamicInstance();
-            await _loginPage.Login((string)data.Username, (string)data.Password);
+            await _loginPage.Login(Username, Password);
         }
 
         [Then(@"I get to examplecom")]

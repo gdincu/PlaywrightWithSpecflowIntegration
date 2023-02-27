@@ -7,12 +7,12 @@ using TechTalk.SpecFlow;
 namespace PlaywrightWithSpecflowIntegration.StepDefinitions
 {
     [Binding]
-    public class Feature1StepDefinitions
+    public class NewPageAccessedStepDefinitions
     {
         private readonly Driver _driver;
         private readonly WikipediaPage _wikipediaPage;
 
-        public Feature1StepDefinitions(Driver driver)
+        public NewPageAccessedStepDefinitions(Driver driver)
         {
             _driver = driver;
             _wikipediaPage = new WikipediaPage(_driver.Page);
@@ -34,7 +34,8 @@ namespace PlaywrightWithSpecflowIntegration.StepDefinitions
         public async Task ThenIGetToADifferentWikipediaPage()
         {
             var newTitle = await _wikipediaPage.GetTitle();
-            Assert.True(newTitle.Equals("Wikipedia, the free encyclopedia"));
+            //Incorrect value used so that the test fails
+            Assert.True(newTitle.Equals("Wikipediaaaaa, the free encyclopedia"));
         }
     }
 }

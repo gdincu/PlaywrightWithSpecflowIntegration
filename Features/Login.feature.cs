@@ -20,22 +20,22 @@ namespace PlaywrightWithSpecflowIntegration.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("EAAppTest")]
-    public partial class EAAppTestFeature
+    [NUnit.Framework.DescriptionAttribute("Login")]
+    public partial class LoginFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
         private string[] _featureTags = ((string[])(null));
         
-#line 1 "EAAppTest.feature"
+#line 1 "Login.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "EAAppTest", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Login", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -73,16 +73,34 @@ namespace PlaywrightWithSpecflowIntegration.Features
             testRunner.CollectScenarioErrors();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Test login operation of EA App")]
-        [NUnit.Framework.CategoryAttribute("smoke")]
-        public virtual void TestLoginOperationOfEAApp()
+        public virtual void FeatureBackground()
         {
-            string[] tagsOfScenario = new string[] {
-                    "smoke"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Test login operation of EA App", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 3
+#line hidden
 #line 4
+ testRunner.Given("I navigate to the app", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Test a generic login operation")]
+        [NUnit.Framework.CategoryAttribute("smoke")]
+        [NUnit.Framework.TestCaseAttribute("admintest", "passwordtest", null)]
+        [NUnit.Framework.TestCaseAttribute("user", "password", null)]
+        public virtual void TestAGenericLoginOperation(string username, string password, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "smoke"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("Username", username);
+            argumentsOfScenario.Add("Password", password);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Test a generic login operation", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -102,19 +120,55 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 5
- testRunner.Given("I navigate to the app", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 3
+this.FeatureBackground();
 #line hidden
-                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
-                            "Username",
-                            "Password"});
-                table1.AddRow(new string[] {
-                            "admintest",
-                            "passwordtest"});
-#line 6
- testRunner.When("I enter the following login details", ((string)(null)), table1, "When ");
+#line 8
+ testRunner.When(string.Format("I enter the following username: {0} and password: {1}", username, password), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 9
+ testRunner.Then("I get to examplecom", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Test a specific login operation")]
+        [NUnit.Framework.CategoryAttribute("regression")]
+        public virtual void TestASpecificLoginOperation()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "regression"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Test a specific login operation", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 17
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 3
+this.FeatureBackground();
+#line hidden
+#line 18
+ testRunner.When("I enter the following username: admin and password: admin", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 19
  testRunner.Then("I get to examplecom", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
