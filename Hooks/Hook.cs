@@ -5,7 +5,7 @@ using TechTalk.SpecFlow.Infrastructure;
 [assembly: Parallelizable(ParallelScope.Fixtures)]
 namespace PlaywrightWithSpecflowIntegration.Hooks
 {
-    [Binding]
+    [Binding, Scope(Tag = "regression")]
     public class Hook
     {
         private readonly ScenarioContext _scenarioContext;

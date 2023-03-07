@@ -3,7 +3,7 @@
 Background: 
 	Given I navigate to the app
 
-@smoke
+@regression
 Scenario Outline: Test a generic login operation
 	When I enter the following username: <Username> and password: <Password>
 	Then I get to examplecom

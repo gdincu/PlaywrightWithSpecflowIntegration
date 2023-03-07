@@ -84,13 +84,13 @@ namespace PlaywrightWithSpecflowIntegration.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Test a generic login operation")]
-        [NUnit.Framework.CategoryAttribute("smoke")]
+        [NUnit.Framework.CategoryAttribute("regression")]
         [NUnit.Framework.TestCaseAttribute("admintest", "passwordtest", null)]
         [NUnit.Framework.TestCaseAttribute("user", "password", null)]
         public virtual void TestAGenericLoginOperation(string username, string password, string[] exampleTags)
         {
             string[] @__tags = new string[] {
-                    "smoke"};
+                    "regression"};
             if ((exampleTags != null))
             {
                 @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
