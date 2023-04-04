@@ -1,39 +1,37 @@
 using NUnit.Framework;
 using PlaywrightWithSpecflowIntegration.Drivers;
 using PlaywrightWithSpecflowIntegration.Pages;
-using TechTalk.SpecFlow.Assist;
 
-namespace PlaywrightWithSpecflowIntegration.StepDefinitions
+namespace PlaywrightWithSpecflowIntegration.StepDefinitions;
+
+[Binding]
+public class LoginStepDefinitions
 {
-    [Binding]
-    public class LoginStepDefinitions
+    private readonly Driver _driver;
+    private readonly LoginPage _loginPage;
+
+    public LoginStepDefinitions(Drivers.Driver driver)
     {
-        private readonly Driver _driver;
-        private readonly LoginPage _loginPage;
+        _driver = driver;
+        _loginPage = new LoginPage(_driver.Page);
+    }
 
-        public LoginStepDefinitions(Drivers.Driver driver)
-        {
-            _driver = driver;
-            _loginPage = new LoginPage(_driver.Page);
-        }
+    [Given(@"I navigate to the app")]
+    public void GivenINavigateToTheApp()
+    {
+        _driver.Page.GotoAsync("https://www.stealmylogin.com/demo.html");
+    }
 
-        [Given(@"I navigate to the app")]
-        public void GivenINavigateToTheApp()
-        {
-            _driver.Page.GotoAsync("https://www.stealmylogin.com/demo.html");
-        }
+    [When(@"I enter the following username: (.*) and password: (.*)")]
+    public async Task WhenIEnterTheFollowingLoginDetails(string Username,string Password)
+    {
+        await _loginPage.Login(Username, Password);
+    }
 
-        [When(@"I enter the following username: (.*) and password: (.*)")]
-        public async Task WhenIEnterTheFollowingLoginDetails(string Username,string Password)
-        {
-            await _loginPage.Login(Username, Password);
-        }
-
-        [Then(@"I get to examplecom")]
-        public async Task ThenIGetToExamplecom()
-        {
-            var title = await _loginPage.GetTitle();
-            Assert.True(title.Equals("Example Domain"));
-        }
+    [Then(@"I get to examplecom")]
+    public async Task ThenIGetToExamplecom()
+    {
+        var title = await _loginPage.GetTitle();
+        Assert.True(title.Equals("Example Domain"));
     }
 }

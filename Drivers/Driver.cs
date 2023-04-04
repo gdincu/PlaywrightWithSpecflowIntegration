@@ -1,71 +1,73 @@
-﻿
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
 using NUnit.Framework;
 
-namespace PlaywrightWithSpecflowIntegration.Drivers
+namespace PlaywrightWithSpecflowIntegration.Drivers;
+
+public class Driver
 {
-    public class Driver
+    private readonly Task<IPage> _page;
+    private IBrowser? _browser;
+
+    public Driver()
     {
-        private readonly Task<IPage> _page;
-        private IBrowser? _browser;
+        _page = InitialisePlaywright(); 
+    }
+    public IPage Page => _page.Result;
 
-        public Driver()
+    private async Task<IPage> InitialisePlaywright()
+    {
+        var playwright = await Playwright.CreateAsync();
+
+        _browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
-            _page = InitialisePlaywright(); 
+            //SlowMo = 500
+            Headless = true,
+            Args = new string[]
+                                   {
+                                        "--disable-gpu", "--disable-extensions", "--no-sandbox", "-incognito"
+                                   }
+        });
+
+        var context = await _browser.NewContextAsync();
+
+        // Start tracing before creating / navigating a page.
+        await context.Tracing.StartAsync(new TracingStartOptions
+        {
+            Screenshots = true,
+            Snapshots = true,
+            Sources = true
+        });
+
+        return await context.NewPageAsync();
+    }
+
+    public async Task Dispose()
+    {
+        IBrowserContext context = _browser.Contexts.FirstOrDefault<IBrowserContext>();
+
+        //Only records a trace file when a test fails
+        if (TestContext.CurrentContext.Result.Outcome.Status == NUnit.Framework.Interfaces.TestStatus.Passed)
+        {
+            await context.Tracing.StopAsync();
+            return;
         }
-        public IPage Page => _page.Result;
-
-        private async Task<IPage> InitialisePlaywright()
+        else
         {
-            var playwright = await Playwright.CreateAsync();
-
-            _browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+            await context.Tracing.StopAsync(new TracingStopOptions
             {
-                Headless = true
-                //SlowMo = 2000
+                Path = TestContext.CurrentContext.Test.MethodName + ".zip"
             });
-
-            var context = await _browser.NewContextAsync();
-
-            // Start tracing before creating / navigating a page.
-            await context.Tracing.StartAsync(new TracingStartOptions
-            {
-                Screenshots = true,
-                Snapshots = true,
-                Sources = true
-            });
-
-            return await context.NewPageAsync();
         }
 
-        public async Task Dispose()
-        {
-            IBrowserContext context = _browser.Contexts.FirstOrDefault<IBrowserContext>();
+        await context.CloseAsync();
 
-            //Only records a trace file when a test fails
-            if (TestContext.CurrentContext.Result.Outcome.Status == NUnit.Framework.Interfaces.TestStatus.Passed)
-            {
-                await context.Tracing.StopAsync();
-                return;
-            }
-            else
-            {
-                await context.Tracing.StopAsync(new TracingStopOptions
-                {
-                    Path = TestContext.CurrentContext.Test.MethodName + ".zip"
-                });
-            }
-
-            await context.CloseAsync();
-
-            await _browser?.CloseAsync();
-
-        }
-
-        public string GetFilePath()
-        {
-            return TestContext.CurrentContext.Test.MethodName + ".zip";
-        }
+        await _browser?.CloseAsync();
 
     }
+
+    public string GetFilePath()
+    {
+        return TestContext.CurrentContext.Test.MethodName + ".zip";
+    }
+
 }

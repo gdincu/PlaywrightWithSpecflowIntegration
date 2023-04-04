@@ -74,14 +74,14 @@ namespace PlaywrightWithSpecflowIntegration.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I access a different page")]
+        [NUnit.Framework.DescriptionAttribute("I access a different page [ShouldFail]")]
         [NUnit.Framework.CategoryAttribute("regression")]
-        public virtual void IAccessADifferentPage()
+        public virtual void IAccessADifferentPageShouldFail()
         {
             string[] tagsOfScenario = new string[] {
                     "regression"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I access a different page", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I access a different page [ShouldFail]", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 6
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
