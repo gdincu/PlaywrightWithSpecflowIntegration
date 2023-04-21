@@ -20,8 +20,8 @@ public class Driver
 
         _browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
-            //SlowMo = 500
-            Headless = true,
+            SlowMo = 2000,
+            Headless = false,
             Args = new string[]
                                    {
                                         "--disable-gpu", "--disable-extensions", "--no-sandbox", "-incognito"
@@ -45,24 +45,26 @@ public class Driver
     {
         IBrowserContext context = _browser.Contexts.FirstOrDefault<IBrowserContext>();
 
-        //Only records a trace file when a test fails
-        if (TestContext.CurrentContext.Result.Outcome.Status == NUnit.Framework.Interfaces.TestStatus.Passed)
+        // Check if the context is not null before proceeding
+        if (context != null)
         {
-            await context.Tracing.StopAsync();
-            return;
-        }
-        else
-        {
-            await context.Tracing.StopAsync(new TracingStopOptions
+            if (TestContext.CurrentContext.Result.Outcome.Status == NUnit.Framework.Interfaces.TestStatus.Passed)
             {
-                Path = TestContext.CurrentContext.Test.MethodName + ".zip"
-            });
+                await context.Tracing.StopAsync();
+            }
+            else
+            {
+                await context.Tracing.StopAsync(new TracingStopOptions
+                {
+                    Path = TestContext.CurrentContext.Test.MethodName + ".zip"
+                });
+            }
+
+            // Close the browser context
+            await context.CloseAsync();
         }
 
-        await context.CloseAsync();
-
-        await _browser?.CloseAsync();
-
+        await _browser.CloseAsync();
     }
 
     public string GetFilePath()
