@@ -10,7 +10,7 @@ public class Driver
 
     public Driver()
     {
-        _page = InitialisePlaywright(); 
+        _page = Task.Run(InitialisePlaywright); 
     }
     public IPage Page => _page.Result;
 
@@ -20,12 +20,9 @@ public class Driver
 
         _browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
-            SlowMo = 2000,
-            Headless = false,
-            Args = new string[]
-                                   {
-                                        "--disable-gpu", "--disable-extensions", "--no-sandbox", "-incognito"
-                                   }
+            SlowMo = 100,
+            Headless = true,
+            Args = new[] {"--disable-gpu", "--disable-extensions", "--no-sandbox", "-incognito"}
         });
 
         var context = await _browser.NewContextAsync();
